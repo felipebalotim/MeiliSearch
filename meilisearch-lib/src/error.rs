@@ -42,8 +42,6 @@ impl ErrorCode for MilliError<'_> {
                     | UserError::NoSpaceLeftOnDevice
                     | UserError::DocumentLimitReached => Code::Internal,
                     UserError::AttributeLimitReached => Code::MaxFieldsLimitExceeded,
-                    UserError::InvalidFilter(_) => Code::Filter,
-                    UserError::InvalidFilterAttribute(_) => Code::Filter,
                     UserError::MissingDocumentId { .. } => Code::MissingDocumentId,
                     UserError::MissingPrimaryKey => Code::MissingPrimaryKey,
                     UserError::PrimaryKeyCannotBeChanged => Code::PrimaryKeyAlreadyPresent,
@@ -55,6 +53,9 @@ impl ErrorCode for MilliError<'_> {
                     UserError::CriterionError(_) => Code::InvalidRankingRule,
                     UserError::InvalidGeoField { .. } => Code::InvalidGeoField,
                     UserError::SortError(_) => Code::Sort,
+                    /// TODO
+                    UserError::InvalidFilter { input } => todo!(),
+                    UserError::InvalidSortName { name } => todo!(),
                 }
             }
         }
