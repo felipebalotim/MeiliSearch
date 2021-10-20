@@ -191,6 +191,7 @@ impl UpdateStore {
                 .map_or(true, |o| o.is_some())
             {
                 loop {
+                    //tokio::task::yield_now().await;
                     match update_store_weak.upgrade() {
                         Some(update_store) => {
                             let handler = index_resolver.clone();

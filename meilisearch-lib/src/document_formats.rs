@@ -4,7 +4,7 @@ use std::io::{self, Read, Result as IoResult, Seek, Write};
 use csv::{Reader as CsvReader, StringRecordsIntoIter};
 use meilisearch_error::{Code, ErrorCode};
 use milli::documents::DocumentBatchBuilder;
-use serde_json::{Deserializer, Map, Value};
+use serde_json::{Map, Value};
 
 type Result<T> = std::result::Result<T, DocumentFormatError>;
 
@@ -54,40 +54,39 @@ macro_rules! malformed {
 }
 
 pub fn read_csv(input: impl Read, writer: impl Write + Seek) -> Result<()> {
-    let mut builder = DocumentBatchBuilder::new(writer).unwrap();
+    todo!();
+    //let mut builder = DocumentBatchBuilder::new(writer).unwrap();
 
-    let iter = CsvDocumentIter::from_reader(input)?;
-    for doc in iter {
-        let doc = doc?;
-        builder.add_documents(doc).unwrap();
-    }
-    builder.finish().unwrap();
+    //let iter = CsvDocumentIter::from_reader(input)?;
+    //for doc in iter {
+        //let doc = doc?;
+        //builder.add_documents(doc).unwrap();
+    //}
+    //builder.finish().unwrap();
 
     Ok(())
 }
 
 /// read jsonl from input and write an obkv batch to writer.
 pub fn read_ndjson(input: impl Read, writer: impl Write + Seek) -> Result<()> {
-    let mut builder = DocumentBatchBuilder::new(writer)?;
-    let stream = Deserializer::from_reader(input).into_iter::<Map<String, Value>>();
+    todo!()
+    //let mut builder = DocumentBatchBuilder::new(writer)?;
+    //let stream = Deserializer::from_reader(input).into_iter::<Map<String, Value>>();
 
-    for value in stream {
-        let value = malformed!(PayloadType::Ndjson, value)?;
-        builder.add_documents(&value)?;
-    }
+    //for value in stream {
+        //let value = malformed!(PayloadType::Ndjson, value)?;
+        //builder.add_documents(&value)?;
+    //}
 
-    builder.finish()?;
+    //builder.finish()?;
 
-    Ok(())
+    //Ok(())
 }
 
 /// read json from input and write an obkv batch to writer.
 pub fn read_json(input: impl Read, writer: impl Write + Seek) -> Result<()> {
     let mut builder = DocumentBatchBuilder::new(writer).unwrap();
-
-    let documents: Vec<Map<String, Value>> =
-        malformed!(PayloadType::Json, serde_json::from_reader(input))?;
-    builder.add_documents(documents).unwrap();
+    builder.extend_from_json(input).unwrap();
     builder.finish().unwrap();
 
     Ok(())
