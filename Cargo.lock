@@ -1844,6 +1844,7 @@ dependencies = [
  "chrono",
  "concat-arrays",
  "crossbeam-channel",
+ "csv",
  "either",
  "flate2",
  "fst",
