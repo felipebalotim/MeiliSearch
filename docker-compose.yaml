@@ -5,7 +5,8 @@ services:
     build: 
       context: .
       dockerfile: ./Dockerfile
-    #command: ./meilisearch --master-key=masterKey --no-analytics=true
+    # command: ./meilisearch --master-key=masterKey --no-analytics=true
+    command: ./meilisearch --master-key=public --no-analytics=true
     volumes:
       - "./data"
     ports:
